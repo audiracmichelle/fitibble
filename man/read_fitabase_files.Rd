@@ -10,12 +10,18 @@ read_fitabase_files(zip_path)
 \item{zip_path}{a path to a zip file that contains minute HR, steps and intensity files extracted from Fitabase. Filenames suffix contain '_heartrate_1min', '_minuteStepsNarrow', or '_minuteIntensitiesNarrow' followed by 'yyyymmdd_yyyymmdd.csv'.}
 }
 \value{
-A list that contains: 1) Files: a tibble that describes the files in zip path. It contains | filename | filetype (HR, steps or intensity) | lines (number of lines in the file) | label (fitabase participant id label) | id (a newly assigned id) | min_lines (a file minimum length check), 2) raw_HR_list, 3) raw_steps_list, 4) raw_intensity_list: lists of tibbles that contain raw minute HR, steps or intensity data for each fitabase participant.
+A list that contains:
+\itemize{
+\item \code{files}: a tibble that describes the files in zip path. It contains \code{filename} | \code{filetype} (HR, steps or intensity) | \code{lines} (number of lines in the file) | \code{label} (fitabase participant id label) | \code{id} (a newly assigned id) | \code{is_valid_file_length} (minimum file length check).
+\item \code{raw_HR_list}, \code{raw_steps_list}, \code{raw_intensity_list}: lists of tibbles that contain raw minute HR, steps or intensity data for each fitabase participant.
+\item \code{time_period}: a tibble that summarizes the minimum and maximum time recorded for each fitabase participant and file type (HR, steps and intensity). \code{is_valid_time_period} corresponds to the minimum time period check (at least one day of overlaping records from 0:00 to 23:59 hrs)
+}
 }
 \description{
 Read Fitabase files
 }
 \examples{
+\dontrun{
 fitabase_files <- read_fitabase_files(file.choose(new = FALSE))
 lapply(fitabase_files$raw_HR_list,
        function(x) summary(table(x$time)))
@@ -25,5 +31,5 @@ lapply(fitabase_files$raw_steps_list,
 lapply(fitabase_files$raw_steps_list, function(x) summary(x$steps))
 lapply(fitabase_files$raw_intensity_list,
        function(x) summary(table(x$time)))
-lapply(fitabase_files$raw_intensity_list, function(x) summary(as.factor(x$intensity)))
+lapply(fitabase_files$raw_intensity_list, function(x) summary(as.factor(x$intensity)))}
 }

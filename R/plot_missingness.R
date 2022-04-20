@@ -15,10 +15,11 @@
 plot_missingness <- function(minute_data, calendar_time = TRUE, type = c("stacked", "raster")) {
   minute_data %>%
     dplyr::mutate(
+      date = as.Date(.data$time),
       HR_is_missing_ = is.na(.data$HR),
       steps_is_missing_ = is.na(.data$steps),
       miss_steps_and_miss_HR_ = .data$HR_is_missing_ * .data$steps_is_missing_,
-      miss_steps_or_miss_HR_ = .data$HR_is_missing | .data$steps_is_missing
+      miss_steps_or_miss_HR_ = .data$HR_is_missing_ | .data$steps_is_missing_
     ) %>%
     dplyr::group_by(.data$id, .data$date) %>%
     dplyr::summarise(

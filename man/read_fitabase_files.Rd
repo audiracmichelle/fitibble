@@ -23,13 +23,9 @@ Read Fitabase files
 \examples{
 \dontrun{
 fitabase_files <- read_fitabase_files(file.choose(new = FALSE))
-lapply(fitabase_files$raw_HR_list,
-       function(x) summary(table(x$time)))
+fitabase_files$files
+fitabase_files$time_period
 lapply(fitabase_files$raw_HR_list, function(x) summary(x$HR))
-lapply(fitabase_files$raw_steps_list,
-       function(x) summary(table(x$time)))
 lapply(fitabase_files$raw_steps_list, function(x) summary(x$steps))
-lapply(fitabase_files$raw_intensity_list,
-       function(x) summary(table(x$time)))
 lapply(fitabase_files$raw_intensity_list, function(x) summary(as.factor(x$intensity)))}
 }

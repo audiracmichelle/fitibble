@@ -10,7 +10,7 @@ prep_minute_data(fitabase_files)
 \item{fitabase_files}{the output list of \code{read_fitabase_files()}.}
 }
 \value{
-A tibble containing \code{id} | \code{label} | \code{time} | \code{HR} | \code{steps} | \code{intensity}.
+A tibble containing \code{id} | \code{time} | \code{HR} | \code{steps} | \code{intensity}.
 }
 \description{
 Prepare minute data

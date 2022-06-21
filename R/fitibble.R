@@ -1,8 +1,8 @@
 #' new_fitibble
 #'
-#' @param x a tibble containing Fitbit HR and step minute readings for multiple subjects in a cohort.
-#' @param intensity_colname a character entry indicating the name of the column that contains the intensity of each minute reading in `x`.
-#' @param intensity_levels a named character vector indicating the labels and levels of the intensity categories.
+#' @param x a tibble (containing Fitbit minute readings).
+#' @param intensity_colname a character entry indicating the name of the column in `x` that contains the intensity of each minute reading.
+#' @param intensity_levels a named character vector indicating the labels and levels of the intensity categories in `intensity_col`.
 #'
 #' @return a fitibble object.
 #'
@@ -24,14 +24,8 @@ new_fitibble <- function(
   )
 }
 
-#' print.fitibble
-#'
-#' @param x a fitibble.
-#'
-#' @return print fitibble content and arguments.
-#'
-#' @examples
-print.fitibble <- function(x) {
+#' @export
+print.fitibble <- function(x, ...) {
   NextMethod(x)
   print(
     list(
@@ -42,11 +36,34 @@ print.fitibble <- function(x) {
   invisible(x)
 }
 
+#' relevel_fitibble
+#'
+#' @param x a fitibble.
+#' @param intensity_colname a character entry indicating the name of the column that contains the intensity of each minute reading in `x`.
+#' @param intensity_levels a named character vector indicating the labels and levels of the intensity categories in `intensity_col`.
+#'
+#' @return releveled intensity in fitibble.
+#'
+#' @export
+#'
+#' @examples
+relevel_fitibble <- function(
+    x,
+    intensity_colname,
+    intensity_levels) {
+  new_fitibble(
+    x,
+    intensity_colname = intensity_colname,
+    intensity_levels = intensity_levels
+  ) %>%
+    validate_fitibble()
+}
+
 #' validate_fitibble
 #'
 #' @param x a fitibble-like object.
 #'
-#' @return Checks a tibble for internal consistency.
+#' @return Checks a fitibble for internal consistency.
 #'
 #' @examples
 validate_fitibble <- function(x) {
@@ -136,5 +153,6 @@ fitibble <- function(
     minute_data,
     intensity_colname = intensity_colname,
     intensity_levels = intensity_levels
-  )
+  ) %>%
+    validate_fitibble()
 }

@@ -11,11 +11,11 @@ new_fitibble(
 )
 }
 \arguments{
-\item{x}{a tibble containing Fitbit HR and step minute readings for multiple subjects in a cohort.}
+\item{x}{a tibble (containing Fitbit minute readings).}
 
-\item{intensity_colname}{a character entry indicating the name of the column that contains the intensity of each minute reading in \code{x}.}
+\item{intensity_colname}{a character entry indicating the name of the column in \code{x} that contains the intensity of each minute reading.}
 
-\item{intensity_levels}{a named character vector indicating the labels and levels of the intensity categories.}
+\item{intensity_levels}{a named character vector indicating the labels and levels of the intensity categories in \code{intensity_col}.}
 }
 \value{
 a fitibble object.

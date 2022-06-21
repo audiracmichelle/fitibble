@@ -10,7 +10,7 @@ validate_fitibble(x)
 \item{x}{a fitibble-like object.}
 }
 \value{
-Checks a tibble for internal consistency.
+Checks a fitibble for internal consistency.
 }
 \description{
 validate_fitibble

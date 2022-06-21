@@ -23,7 +23,7 @@ flag_adherent_hours_between <- function(
 #' @details Flag adherent hours in the day. So far only the "adherent_hours_between" rule is implemented.
 #'
 #' @param time a numeric vector containing sequences of minute values in a day.
-#' @param adherent_method one of the following "adherent_hours_between" (ideally more options could be integrated into the package).
+#' @param adherent_method one of the following "adherent_hours_between" (other adherence rule could be integrated into the package).
 #' @param ... additional parameters required by the selected adherence criteria.
 #'
 #' @return boolean vector, adherent minutes encoded as T, and non-adherent encoded as F.

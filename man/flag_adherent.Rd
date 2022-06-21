@@ -9,7 +9,7 @@ flag_adherent(time, adherent_method = c("adherent_hours_between"), ...)
 \arguments{
 \item{time}{a numeric vector containing sequences of minute values in a day.}
 
-\item{adherent_method}{one of the following "adherent_hours_between" (ideally more options could be integrated into the package).}
+\item{adherent_method}{one of the following "adherent_hours_between" (other adherence rule could be integrated into the package).}
 
 \item{...}{additional parameters required by the selected adherence criteria.}
 }

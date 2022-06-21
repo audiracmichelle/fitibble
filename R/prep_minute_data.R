@@ -2,7 +2,7 @@
 #'
 #' @param fitabase_files the output list of `read_fitabase_files()`.
 #'
-#' @return A tibble containing `id` | `label` | `time` | `HR` | `steps` | `intensity`.
+#' @return A tibble containing `id` | `time` | `HR` | `steps` | `intensity`.
 #' @export
 #'
 #' @examples
@@ -10,9 +10,9 @@
 #' minute_data <- prepare_minute_data(fitabase_files)
 #' minute_data %>%
 #' mutate(hour = hour(time),
-#'        weekday = wday(as.Date(time), label = TRUE))}
-
-prepare_minute_data <- function(fitabase_files) {
+#'        weekday = wday(as.Date(time), label = TRUE))
+#' }
+prep_minute_data <- function(fitabase_files) {
 
   #### ####
   # preprocess HR
@@ -75,7 +75,8 @@ prepare_minute_data <- function(fitabase_files) {
   raw_HR %<>%
     dplyr::left_join(
       fitabase_files[["time_period"]] %>%
-        dplyr::select(.data$id, .data$label, .data$min_time, .data$max_time, .data$is_valid_time_period)
+        dplyr::select(.data$id, .data$label, .data$min_time, .data$max_time, .data$is_valid_time_period),
+      by = c("id", "label")
     ) %>%
     dplyr::filter(.data$is_valid_time_period,
                   .data$time >= .data$min_time,
@@ -85,7 +86,8 @@ prepare_minute_data <- function(fitabase_files) {
   raw_steps %<>%
     dplyr::left_join(
       fitabase_files[["time_period"]] %>%
-        dplyr::select(.data$id, .data$label, .data$min_time, .data$max_time, .data$is_valid_time_period)
+        dplyr::select(.data$id, .data$label, .data$min_time, .data$max_time, .data$is_valid_time_period),
+      by = c("id", "label")
     ) %>%
     dplyr::filter(.data$is_valid_time_period,
                   .data$time >= .data$min_time,
@@ -95,7 +97,8 @@ prepare_minute_data <- function(fitabase_files) {
   raw_intensity %<>%
     dplyr::left_join(
       fitabase_files[["time_period"]] %>%
-        dplyr::select(.data$id, .data$label, .data$min_time, .data$max_time, .data$is_valid_time_period)
+        dplyr::select(.data$id, .data$label, .data$min_time, .data$max_time, .data$is_valid_time_period),
+      by = c("id", "label")
     ) %>%
     dplyr::filter(.data$is_valid_time_period,
                   .data$time >= .data$min_time,
@@ -103,8 +106,8 @@ prepare_minute_data <- function(fitabase_files) {
     dplyr::select(-.data$min_time, -.data$max_time, -.data$is_valid_time_period)
 
   minute_data <- raw_HR %>%
-    dplyr::left_join(raw_steps) %>%
-    dplyr::left_join(raw_intensity)
+    dplyr::left_join(raw_steps, by = c("time", "id", "label")) %>%
+    dplyr::left_join(raw_intensity, by = c("time", "id", "label"))
 
   minute_data
 }

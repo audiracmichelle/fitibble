@@ -5,7 +5,7 @@
 \title{fitibble}
 \usage{
 fitibble(
-  minute_data,
+  .data,
   intensity_colname = "intensity",
   intensity_levels = c(sedentary = "0", light = "1", moderate = "2", active = "3"),
   nonwear_method = c("missing_HR", "missing_HR_zero_steps", "choi_HR", "choi_steps"),
@@ -15,9 +15,9 @@ fitibble(
 )
 }
 \arguments{
-\item{minute_data}{A tibble containing \code{id} | \code{time} | \code{HR} | \code{steps} | \code{intensity}. The intensity column can have another name, specified by \code{intensity_col}.}
+\item{.data}{A tibble containing \code{id} | \code{time} | \code{HR} | \code{steps} | \code{intensity}. The intensity column can have another name, specified by \code{intensity_col}.}
 
-\item{intensity_colname}{a character entry indicating the name of the column that contains the intensity of each minute reading in \code{minute_data}.}
+\item{intensity_colname}{a character entry indicating the name of the column that contains the intensity of each minute reading in \code{.data}.}
 
 \item{intensity_levels}{a named character vector indicating the labels and levels of the intensity categories in \code{intensity_col}.}
 
@@ -36,5 +36,5 @@ a fitibble, an object containing arguments that are useful for generating physic
 fitibble
 }
 \details{
-\code{fitibble} prepares a fitibble object.
+Prepares a \code{fitibble} object.
 }

@@ -36,29 +36,6 @@ print.fitibble <- function(x, ...) {
   invisible(x)
 }
 
-#' relevel_fitibble
-#'
-#' @param x a fitibble.
-#' @param intensity_colname a character entry indicating the name of the column that contains the intensity of each minute reading in `x`.
-#' @param intensity_levels a named character vector indicating the labels and levels of the intensity categories in `intensity_col`.
-#'
-#' @return releveled intensity in fitibble.
-#'
-#' @export
-#'
-#' @examples
-relevel_fitibble <- function(
-    x,
-    intensity_colname,
-    intensity_levels) {
-  new_fitibble(
-    x,
-    intensity_colname = intensity_colname,
-    intensity_levels = intensity_levels
-  ) %>%
-    validate_fitibble()
-}
-
 #' validate_fitibble
 #'
 #' @param x a fitibble-like object.
@@ -91,10 +68,10 @@ validate_fitibble <- function(x) {
 
 #' fitibble
 #'
-#' @details `fitibble` prepares a fitibble object.
+#' @details Prepares a `fitibble` object.
 #'
-#' @param minute_data A tibble containing `id` | `time` | `HR` | `steps` | `intensity`. The intensity column can have another name, specified by `intensity_col`.
-#' @param intensity_colname a character entry indicating the name of the column that contains the intensity of each minute reading in `minute_data`.
+#' @param .data A tibble containing `id` | `time` | `HR` | `steps` | `intensity`. The intensity column can have another name, specified by `intensity_col`.
+#' @param intensity_colname a character entry indicating the name of the column that contains the intensity of each minute reading in `.data`.
 #' @param intensity_levels a named character vector indicating the labels and levels of the intensity categories in `intensity_col`.
 #' @param nonwear_method one of the following "missing_HR", "missing_HR_zero_steps", "choi_HR" or "choi_steps".
 #' @param adherent_method one of the following "adherent_hours_between" (other adherence rule could be integrated into the package).
@@ -107,7 +84,7 @@ validate_fitibble <- function(x) {
 #'
 #' @examples
 fitibble <- function(
-    minute_data,
+    .data,
     intensity_colname = "intensity",
     intensity_levels = c(sedentary = "0",
                          light = "1",
@@ -122,7 +99,7 @@ fitibble <- function(
                          "valid_step_count"),
     ...
 ) {
-  minute_data %<>%
+  .data %<>%
     dplyr::group_by(.data$id) %>%
     dplyr::mutate(
       is_wear = !flag_nonwear(.data$HR,
@@ -135,7 +112,7 @@ fitibble <- function(
       date = as.Date(.data$time)
     )
 
-  minute_data %<>%
+  .data %<>%
     dplyr::group_by(.data$id, .data$date) %>%
     tidyr::nest() %>%
     dplyr::mutate(
@@ -150,7 +127,7 @@ fitibble <- function(
     dplyr::ungroup()
 
   new_fitibble(
-    minute_data,
+    .data,
     intensity_colname = intensity_colname,
     intensity_levels = intensity_levels
   ) %>%

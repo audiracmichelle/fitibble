@@ -1,55 +1,3 @@
-#' relevel_fitibble
-#'
-#' @details Redefine `intensity_colname` and `intensity_levels` attributes in a fitibble.
-#'
-#' @param .data a fitibble.
-#' @param intensity_colname a character entry indicating the name of the column that contains the intensity of each minute reading in `.data`.
-#' @param intensity_levels a named character vector indicating the labels and levels of the intensity categories in `intensity_col`.
-#'
-#' @return a fitibble with redefined intensity attributes.
-#'
-#' @export
-#'
-#' @examples
-relevel_fitibble <- function(
-    .data,
-    intensity_colname,
-    intensity_levels) {
-  new_fitibble(
-    .data,
-    intensity_colname = intensity_colname,
-    intensity_levels = intensity_levels
-  ) %>%
-    validate_fitibble()
-}
-
-#' mask_fitibble
-#'
-#' @details Mask non-valid minute entries with `NA` entries.
-#'
-#' @param .data a fitibble.
-#' @param flag_valid indicates whether the `is_valid` flag should be added to `.data`
-#'
-#' @return a fitibble with masked non-valid minutes.
-#' @export
-#'
-#' @examples
-mask_fitibble <- function(.data, flag_valid = T) {
-  intensity_colname <- attr(.data, "intensity_colname")
-  is_valid <- .data$is_wear &
-    .data$is_adherent &
-    .data$is_valid_day
-
-  .data$HR[!is_valid] <- as.numeric(NA)
-  .data$steps[!is_valid] <- as.numeric(NA)
-  .data[[intensity_colname]][!is_valid] <- as.numeric(NA)
-
-  if(flag_valid) {
-    .data$is_valid <- is_valid
-  }
-  .data
-}
-
 #' prep_daily_data
 #'
 #' @details Prepare daily data.
@@ -66,7 +14,7 @@ prep_daily_data <- function(
   intensity_colname <- attr(.data, "intensity_colname")
   intensity_levels <- attr(.data, "intensity_levels")
 
-  .data <- mask_fitibble(.data)
+  .data <- crop_valid(.data)
 
   daily_data <- .data %>%
     tibble::as_tibble %>%

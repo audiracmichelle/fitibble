@@ -66,6 +66,31 @@ validate_fitibble <- function(x) {
   x
 }
 
+#' relevel_fitibble
+#'
+#' @details Redefine `intensity_colname` and `intensity_levels` attributes in a fitibble.
+#'
+#' @param x a fitibble.
+#' @param intensity_colname a character entry indicating the name of the column that contains the intensity of each minute reading in `x`.
+#' @param intensity_levels a named character vector indicating the labels and levels of the intensity categories in `intensity_col`.
+#'
+#' @return a fitibble with redefined intensity attributes.
+#'
+#' @export
+#'
+#' @examples
+relevel_fitibble <- function(
+    x,
+    intensity_colname,
+    intensity_levels) {
+  new_fitibble(
+    x,
+    intensity_colname = intensity_colname,
+    intensity_levels = intensity_levels
+  ) %>%
+    validate_fitibble()
+}
+
 #' fitibble
 #'
 #' @details Prepares a `fitibble` object.
@@ -124,7 +149,8 @@ fitibble <- function(
                        ...))
     ) %>%
     tidyr::unnest(cols = c(.data$data, .data$is_valid_day)) %>%
-    dplyr::ungroup()
+    dplyr::ungroup() %>%
+    dplyr::select(-.data$date)
 
   new_fitibble(
     .data,
@@ -132,4 +158,58 @@ fitibble <- function(
     intensity_levels = intensity_levels
   ) %>%
     validate_fitibble()
+}
+
+#' crop_valid
+#'
+#' @details Crops HR, steps and intensity minutes of valid adherent wear.
+#'
+#' @param .data a fitibble.
+#' @param flag_valid indicates whether the `is_valid` flag should be added to `.data`
+#'
+#' @return a fitibble with valid adherent wear entries, the rest of the entries are masked with an `NA`.
+#' @export
+#'
+#' @examples
+crop_valid <- function(.data, flag_valid = T) {
+  intensity_colname <- attr(.data, "intensity_colname")
+  is_valid <- .data$is_wear &
+    .data$is_adherent &
+    .data$is_valid_day
+
+  .data$HR[!is_valid] <- as.numeric(NA)
+  .data$steps[!is_valid] <- as.numeric(NA)
+  .data[[intensity_colname]][!is_valid] <- as.numeric(NA)
+
+  if(flag_valid) {
+    .data$is_valid <- is_valid
+  }
+  .data
+}
+
+#' crop_nonvalid
+#'
+#' @details Crops HR, steps and intensity minutes of nonvalid adherent wear.
+#'
+#' @param .data a fitibble.
+#' @param flag_nonvalid indicates whether the `is_nonvalid` flag should be added to `.data`
+#'
+#' @return a fitibble with nonvalid adherent wear entries, the rest of the entries are masked with an `NA`.
+#' @export
+#'
+#' @examples
+crop_nonvalid <- function(.data, flag_nonvalid = T) {
+  intensity_colname <- attr(.data, "intensity_colname")
+  is_nonvalid <- .data$is_wear &
+    .data$is_adherent &
+    !.data$is_valid_day
+
+  .data$HR[!is_nonvalid] <- as.numeric(NA)
+  .data$steps[!is_nonvalid] <- as.numeric(NA)
+  .data[[intensity_colname]][!is_nonvalid] <- as.numeric(NA)
+
+  if(flag_nonvalid) {
+    .data$is_nonvalid <- is_nonvalid
+  }
+  .data
 }

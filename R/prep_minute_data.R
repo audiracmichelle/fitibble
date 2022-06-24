@@ -1,4 +1,6 @@
-#' Prepare minute data
+#' prep_minute_data
+#'
+#' @details Prepare minute data
 #'
 #' @param fitabase_files the output list of `read_fitabase_files()`.
 #'
@@ -111,4 +113,3 @@ prep_minute_data <- function(fitabase_files) {
 
   minute_data
 }
-

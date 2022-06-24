@@ -2,7 +2,7 @@
 % Please edit documentation in R/prep_minute_data.R
 \name{prep_minute_data}
 \alias{prep_minute_data}
-\title{Prepare minute data}
+\title{prep_minute_data}
 \usage{
 prep_minute_data(fitabase_files)
 }
@@ -13,6 +13,9 @@ prep_minute_data(fitabase_files)
 A tibble containing \code{id} | \code{time} | \code{HR} | \code{steps} | \code{intensity}.
 }
 \description{
+prep_minute_data
+}
+\details{
 Prepare minute data
 }
 \examples{

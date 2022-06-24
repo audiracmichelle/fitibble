@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_fitabase_files.R
 \name{read_fitabase_files}
 \alias{read_fitabase_files}
-\title{Read Fitabase files}
+\title{read_fitabase_files}
 \usage{
 read_fitabase_files(zip_path)
 }
@@ -18,6 +18,9 @@ A list that contains:
 }
 }
 \description{
+read_fitabase_files
+}
+\details{
 Read Fitabase files
 }
 \examples{

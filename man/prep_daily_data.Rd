@@ -10,11 +10,11 @@ prep_daily_data(.data)
 \item{.data}{a fitibble.}
 }
 \value{
-a tibble containing daily statistics derived from minute-level data.
+a tibble containing daily statistics of valid wear for each date and subject \code{id} in \code{.data}.
 }
 \description{
 prep_daily_data
 }
 \details{
-Prepare daily data.
+Prepares daily data derived from valid wear in a fitibble.
 }

@@ -1,10 +1,10 @@
 #' prep_daily_data
 #'
-#' @details Prepare daily data.
+#' @details Prepares daily data derived from valid wear in a fitibble.
 #'
 #' @param .data a fitibble.
 #'
-#' @return a tibble containing daily statistics derived from minute-level data.
+#' @return a tibble containing daily statistics of valid wear for each date and subject `id` in `.data`.
 #' @export
 #'
 #' @examples
@@ -193,4 +193,28 @@ prep_patient_summary <- function(.data){
   prep_wear_summary(.data) %>%
     dplyr::full_join(prep_valid_wear_summary(.data)) %>%
     dplyr::full_join(prep_nonvalid_wear_summary(.data))
+}
+
+#' prep_daily_summary
+#'
+#' @param .data a fitibble.
+#'
+#' @return a tibble containing summary statistics that describe daily patterns for each subject `id` in `.data`.
+#' @export
+#'
+#' @examples
+prep_daily_summary <- function(.data) {
+  prep_daily_data(.data) %>%
+    dplyr::group_by(.data$id) %>%
+    dplyr::summarise(
+      valid_days = sum(.data$valid_mins > 0),
+      mu_HR = mean(.data$HR, na.rm = T),
+      sd_HR = stats::sd(.data$HR, na.rm = T),
+      dplyr::across(
+        tidyselect::contains("_prop"),
+        list(mu = ~ mean(.x, na.rm = T),
+             sd = ~ sd(.x, na.rm = T)), #sd_error 1.96 * x / sqrt(valid_days)
+        .names = "{.fn}_{.col}")
+    ) %>%
+    dplyr::ungroup()
 }

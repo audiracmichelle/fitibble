@@ -4,19 +4,21 @@
 \alias{crop_valid}
 \title{crop_valid}
 \usage{
-crop_valid(.data, flag_valid = T)
+crop_valid(.data, flag_valid = T, mask = F)
 }
 \arguments{
 \item{.data}{a fitibble.}
 
 \item{flag_valid}{indicates whether the \code{is_valid} flag should be added to \code{.data}}
+
+\item{mask}{indicates whether minutes that are not valid wear should be masked with an \code{NA} instead of filtered out. Only entries in HR, steps and intensity columns are masked.}
 }
 \value{
-a fitibble with valid adherent wear entries, the rest of the entries are masked with an \code{NA}.
+a fitibble of valid wear entries,
 }
 \description{
 crop_valid
 }
 \details{
-Crops HR, steps and intensity minutes of valid adherent wear.
+Crops minutes of valid wear in a fitibble.
 }

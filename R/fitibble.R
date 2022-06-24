@@ -23,6 +23,8 @@ new_fitibble <- function(
     class = "fitibble"
   )
 }
+#ideally a fitibble should be a minute-level tsibble
+#this should be addressed in future versions of the package
 
 #' @export
 print.fitibble <- function(x, ...) {
@@ -162,54 +164,66 @@ fitibble <- function(
 
 #' crop_valid
 #'
-#' @details Crops HR, steps and intensity minutes of valid adherent wear.
+#' @details Crops minutes of valid wear in a fitibble.
 #'
 #' @param .data a fitibble.
 #' @param flag_valid indicates whether the `is_valid` flag should be added to `.data`
+#' @param mask indicates whether minutes that are not valid wear should be masked with an `NA` instead of filtered out. Only entries in HR, steps and intensity columns are masked.
 #'
-#' @return a fitibble with valid adherent wear entries, the rest of the entries are masked with an `NA`.
+#' @return a fitibble of valid wear entries,
 #' @export
 #'
 #' @examples
-crop_valid <- function(.data, flag_valid = T) {
+crop_valid <- function(.data, flag_valid = T, mask = F) {
   intensity_colname <- attr(.data, "intensity_colname")
   is_valid <- .data$is_wear &
     .data$is_adherent &
     .data$is_valid_day
 
-  .data$HR[!is_valid] <- as.numeric(NA)
-  .data$steps[!is_valid] <- as.numeric(NA)
-  .data[[intensity_colname]][!is_valid] <- as.numeric(NA)
-
   if(flag_valid) {
     .data$is_valid <- is_valid
   }
+
+  if(mask){
+    .data$HR[!is_valid] <- as.numeric(NA)
+    .data$steps[!is_valid] <- as.numeric(NA)
+    .data[[intensity_colname]][!is_valid] <- as.numeric(NA)
+  } else {
+    .data <- .data[is_valid,]
+  }
+
   .data
 }
 
 #' crop_nonvalid
 #'
-#' @details Crops HR, steps and intensity minutes of nonvalid adherent wear.
+#' @details Crops minutes of nonvalid wear in a fitibble.
 #'
 #' @param .data a fitibble.
 #' @param flag_nonvalid indicates whether the `is_nonvalid` flag should be added to `.data`
+#' @param mask indicates whether minutes that are not nonvalid wear should be masked with an `NA` instead of filtered out. Only entries in HR, steps and intensity columns are masked.
 #'
-#' @return a fitibble with nonvalid adherent wear entries, the rest of the entries are masked with an `NA`.
+#' @return a fitibble of nonvalid wear entries.
 #' @export
 #'
 #' @examples
-crop_nonvalid <- function(.data, flag_nonvalid = T) {
+crop_nonvalid <- function(.data, flag_nonvalid = T, mask = F) {
   intensity_colname <- attr(.data, "intensity_colname")
   is_nonvalid <- .data$is_wear &
     .data$is_adherent &
     !.data$is_valid_day
 
-  .data$HR[!is_nonvalid] <- as.numeric(NA)
-  .data$steps[!is_nonvalid] <- as.numeric(NA)
-  .data[[intensity_colname]][!is_nonvalid] <- as.numeric(NA)
-
   if(flag_nonvalid) {
     .data$is_nonvalid <- is_nonvalid
   }
+
+  if(mask){
+    .data$HR[!is_nonvalid] <- as.numeric(NA)
+    .data$steps[!is_nonvalid] <- as.numeric(NA)
+    .data[[intensity_colname]][!is_nonvalid] <- as.numeric(NA)
+  } else {
+    .data <- .data[is_nonvalid,]
+  }
+
   .data
 }

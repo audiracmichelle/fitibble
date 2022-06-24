@@ -4,19 +4,21 @@
 \alias{crop_nonvalid}
 \title{crop_nonvalid}
 \usage{
-crop_nonvalid(.data, flag_nonvalid = T)
+crop_nonvalid(.data, flag_nonvalid = T, mask = F)
 }
 \arguments{
 \item{.data}{a fitibble.}
 
 \item{flag_nonvalid}{indicates whether the \code{is_nonvalid} flag should be added to \code{.data}}
+
+\item{mask}{indicates whether minutes that are not nonvalid wear should be masked with an \code{NA} instead of filtered out. Only entries in HR, steps and intensity columns are masked.}
 }
 \value{
-a fitibble with nonvalid adherent wear entries, the rest of the entries are masked with an \code{NA}.
+a fitibble of nonvalid wear entries.
 }
 \description{
 crop_nonvalid
 }
 \details{
-Crops HR, steps and intensity minutes of nonvalid adherent wear.
+Crops minutes of nonvalid wear in a fitibble.
 }

@@ -7,7 +7,7 @@
 prep_daily_data(.data)
 }
 \arguments{
-\item{.data}{a fitibble with readings of Fitbit data.}
+\item{.data}{a fitibble.}
 }
 \value{
 a tibble containing daily statistics derived from minute-level data.

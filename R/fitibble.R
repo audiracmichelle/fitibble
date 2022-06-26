@@ -11,7 +11,7 @@ new_fitibble <- function(
     x = tibble::tibble(),
     intensity_colname = character(),
     intensity_levels = character() #named character vector
-    ) {
+    ) { #new issue:ideally a fitibble should be a minute-level tsibble
   stopifnot(tibble::is_tibble(x))
   stopifnot(is.character(intensity_colname))
   stopifnot(is.character(intensity_levels))
@@ -23,8 +23,6 @@ new_fitibble <- function(
     class = "fitibble"
   )
 }
-#ideally a fitibble should be a minute-level tsibble
-#this should be addressed in future versions of the package
 
 #' @export
 print.fitibble <- function(x, ...) {
@@ -58,7 +56,7 @@ validate_fitibble <- function(x) {
     stop("Non-valid `intensity_colname`",
          call. = FALSE)
   }
-  if (sum(!unique(x[[intensity_colname]]) %in% intensity_levels) > 0) {
+  if (sum(!unique(x[[intensity_colname]]) %in% c(intensity_levels, NA))> 0) {
     stop(
       "Non-valid `intensity_levels`",
       call. = FALSE
@@ -81,7 +79,7 @@ validate_fitibble <- function(x) {
 #' @export
 #'
 #' @examples
-relevel_fitibble <- function(
+relevel_fitibble <- function( #new issue:make this function a generic in future versions
     x,
     intensity_colname,
     intensity_levels) {
@@ -97,7 +95,7 @@ relevel_fitibble <- function(
 #'
 #' @details Prepares a `fitibble` object.
 #'
-#' @param .data A tibble containing `id` | `time` | `HR` | `steps` | `intensity`. The intensity column can have another name, specified by `intensity_col`.
+#' @param .data A tibble containing `id` | `time` | `HR` | `steps` | `intensity`. The intensity column can have another name, specified by `intensity_col`. It can be the output of `prepare_minute_data()` or a tibble or data.frame with columns  `id` (character)| `time` (POSIXct yyyy-mm-dd HH:MM:SS) |`HR` (numeric)|`steps` (numeric) and with minute-level values in each row. It is necessary that for each participant the minute sequence has no gaps and  missing records should be entered as `NA`.
 #' @param intensity_colname a character entry indicating the name of the column that contains the intensity of each minute reading in `.data`.
 #' @param intensity_levels a named character vector indicating the labels and levels of the intensity categories in `intensity_col`.
 #' @param nonwear_method one of the following "missing_HR", "missing_HR_zero_steps", "choi_HR" or "choi_steps".

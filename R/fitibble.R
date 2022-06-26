@@ -119,21 +119,25 @@ fitibble <- function(
                        "missing_HR_zero_steps",
                        "choi_HR",
                        "choi_steps"),
+    nonwear_args = list(),
     adherent_method = c("adherent_hours_between"),
+    adherent_args = list(),
     valid_day_method = c("valid_adherent_hours",
                          "valid_step_count"),
-    ...
+    valid_day_args = list()
 ) {
   .data %<>%
     dplyr::group_by(.data$id) %>%
     dplyr::mutate(
-      is_wear = !flag_nonwear(.data$HR,
-                              .data$steps,
-                              nonwear_method = nonwear_method[1],
-                              ...),
-      is_adherent = flag_adherent(.data$time,
-                                  adherent_method = adherent_method[1],
-                                  ...),
+      is_wear = !do.call("flag_nonwear",
+                         c(list(HR = .data$HR,
+                                steps = .data$steps,
+                                nonwear_method = nonwear_method[1]),
+                           nonwear_args)),
+      is_adherent = do.call("flag_adherent",
+                            c(list(time = .data$time,
+                                   adherent_method = adherent_method[1]),
+                              adherent_args)),
       date = as.Date(.data$time)
     )
 
@@ -141,12 +145,15 @@ fitibble <- function(
     dplyr::group_by(.data$id, .data$date) %>%
     tidyr::nest() %>%
     dplyr::mutate(
-      is_valid_day = purrr::map(.data$data, function(x)
-        flag_valid_day(x$is_wear,
-                       x$is_adherent,
-                       steps = x$steps,
-                       valid_day_method = valid_day_method[1],
-                       ...))
+      is_valid_day = purrr::map(
+        .data$data,
+        function(x)
+          do.call("flag_valid_day",
+                  c(list(is_wear = x$is_wear,
+                         is_adherent = x$is_adherent,
+                         steps = x$steps,
+                         valid_day_method = valid_day_method[1]),
+                    valid_day_args)))
     ) %>%
     tidyr::unnest(cols = c(.data$data, .data$is_valid_day)) %>%
     dplyr::ungroup() %>%

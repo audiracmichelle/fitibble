@@ -9,9 +9,11 @@ fitibble(
   intensity_colname = "intensity",
   intensity_levels = c(sedentary = "0", light = "1", moderate = "2", active = "3"),
   nonwear_method = c("missing_HR", "missing_HR_zero_steps", "choi_HR", "choi_steps"),
+  nonwear_args = list(),
   adherent_method = c("adherent_hours_between"),
+  adherent_args = list(),
   valid_day_method = c("valid_adherent_hours", "valid_step_count"),
-  ...
+  valid_day_args = list()
 )
 }
 \arguments{

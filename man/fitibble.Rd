@@ -15,7 +15,7 @@ fitibble(
 )
 }
 \arguments{
-\item{.data}{A tibble containing \code{id} | \code{time} | \code{HR} | \code{steps} | \code{intensity}. The intensity column can have another name, specified by \code{intensity_col}.}
+\item{.data}{A tibble containing \code{id} | \code{time} | \code{HR} | \code{steps} | \code{intensity}. The intensity column can have another name, specified by \code{intensity_col}. It can be the output of \code{prepare_minute_data()} or a tibble or data.frame with columns  \code{id} (character)| \code{time} (POSIXct yyyy-mm-dd HH:MM:SS) |\code{HR} (numeric)|\code{steps} (numeric) and with minute-level values in each row. It is necessary that for each participant the minute sequence has no gaps and  missing records should be entered as \code{NA}.}
 
 \item{intensity_colname}{a character entry indicating the name of the column that contains the intensity of each minute reading in \code{.data}.}
 

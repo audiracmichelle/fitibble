@@ -99,9 +99,11 @@ relevel_fitibble <- function( #new issue:make this function a generic in future 
 #' @param intensity_colname a character entry indicating the name of the column that contains the intensity of each minute reading in `.data`.
 #' @param intensity_levels a named character vector indicating the labels and levels of the intensity categories in `intensity_col`.
 #' @param nonwear_method one of the following "missing_HR", "missing_HR_zero_steps", "choi_HR" or "choi_steps".
+#' @param nonwear_args additional parameters that go into the nonwear method.
 #' @param adherent_method one of the following "adherent_hours_between" (other adherence rule could be integrated into the package).
+#' @param adherent_args additional parameters that go into the adherent method.
 #' @param valid_day_method one of the following "valid_adherent_hours" or "valid_step_count".
-#' @param ... additional parameters that go into the nonwear, adherence or valid day methods.
+#' @param valid_day_args additional parameters that go into the valid day method.
 #'
 #' @return a fitibble, an object containing arguments that are useful for generating physical activity summaries from Fitbit data.
 #'

@@ -25,11 +25,15 @@ fitibble(
 
 \item{nonwear_method}{one of the following "missing_HR", "missing_HR_zero_steps", "choi_HR" or "choi_steps".}
 
+\item{nonwear_args}{additional parameters that go into the nonwear method.}
+
 \item{adherent_method}{one of the following "adherent_hours_between" (other adherence rule could be integrated into the package).}
+
+\item{adherent_args}{additional parameters that go into the adherent method.}
 
 \item{valid_day_method}{one of the following "valid_adherent_hours" or "valid_step_count".}
 
-\item{...}{additional parameters that go into the nonwear, adherence or valid day methods.}
+\item{valid_day_args}{additional parameters that go into the valid day method.}
 }
 \value{
 a fitibble, an object containing arguments that are useful for generating physical activity summaries from Fitbit data.

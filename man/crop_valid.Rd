@@ -4,12 +4,14 @@
 \alias{crop_valid}
 \title{crop_valid}
 \usage{
-crop_valid(.data, flag_valid = T, mask = F)
+crop_valid(.data, nonvalid = F, flag_valid = T, mask = F)
 }
 \arguments{
 \item{.data}{a fitibble.}
 
-\item{flag_valid}{indicates whether the \code{is_valid} flag should be added to \code{.data}}
+\item{nonvalid}{determines if nonvalid wear should be cropped instead of valid wear}
+
+\item{flag_valid}{indicates whether the \code{is_valid} flag should be added to \code{.data}.}
 
 \item{mask}{indicates whether minutes that are not valid wear should be masked with an \code{NA} instead of filtered out. Only entries in HR, steps and intensity columns are masked.}
 }

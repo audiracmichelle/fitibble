@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_missingness.R
 \name{plot_missingness}
 \alias{plot_missingness}
-\title{Plot missing values in Fitbit's HR and steps data}
+\title{Plot missingness}
 \usage{
 plot_missingness(
   minute_data,
@@ -11,17 +11,17 @@ plot_missingness(
 )
 }
 \arguments{
-\item{minute_data}{Preprocessed fitbit data. It can be the output of \code{prepare_minute_data()} or a tibble or data.frame with columns  \code{id} | \code{time} (POSIXct yyyy-mm-dd HH:MM:SS) |\code{HR} |\code{steps} and minute-level values in each row. It is necessary that for each participant the minute sequence has no gaps and  missing records should be entered as \code{NA}.}
+\item{minute_data}{a fitibble}
 
 \item{calendar_time}{Default is \code{TRUE}. If set to \code{FALSE} then date values in the \code{x} axis are replaced by a numerical index.}
 
-\item{type}{Either \code{stacked} or \code{raster}. The representation of the number of minutes that have missing values can be stacked or in raster format.}
+\item{type}{Either \code{stacked} or \code{raster}. The representation of the number of minutes can be stacked or in raster format.}
 }
 \value{
 A time line showing the number of minutes with missing values in a day. Minutes are either \verb{missing HR}, \verb{missing steps}, \verb{missing HR and steps} or \verb{no missing}
 }
 \description{
-Plot missing values in Fitbit's HR and steps data
+Plot missingness
 }
 \examples{
 \dontrun{

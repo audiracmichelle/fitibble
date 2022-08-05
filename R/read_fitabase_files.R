@@ -1,4 +1,6 @@
-#' Read Fitabase files
+#' read_fitabase_files
+#'
+#' @details Read Fitabase files
 #'
 #' @param zip_path a path to a zip file that contains minute HR, steps and intensity files extracted from Fitabase. Filenames suffix contain '_heartrate_1min', '_minuteStepsNarrow', or '_minuteIntensitiesNarrow' followed by 'yyyymmdd_yyyymmdd.csv'.
 #'
@@ -14,16 +16,11 @@
 #' @examples
 #' \dontrun{
 #' fitabase_files <- read_fitabase_files(file.choose(new = FALSE))
-#' lapply(fitabase_files$raw_HR_list,
-#'        function(x) summary(table(x$time)))
+#' fitabase_files$files
+#' fitabase_files$time_period
 #' lapply(fitabase_files$raw_HR_list, function(x) summary(x$HR))
-#' lapply(fitabase_files$raw_steps_list,
-#'        function(x) summary(table(x$time)))
 #' lapply(fitabase_files$raw_steps_list, function(x) summary(x$steps))
-#' lapply(fitabase_files$raw_intensity_list,
-#'        function(x) summary(table(x$time)))
 #' lapply(fitabase_files$raw_intensity_list, function(x) summary(as.factor(x$intensity)))}
-
 read_fitabase_files <- function(zip_path) {
 
   #### ####

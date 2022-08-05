@@ -33,7 +33,7 @@ flag_nonwear <- function(
     nonwear = is.na(HR)
   }
   if(nonwear_method[1] == "missing_HR_zero_steps") {
-    nonwear = (is.na(HR) & (steps == 0)) | is.na(steps)
+    nonwear = is.na(HR) & (steps == 0 | is.na(steps))
   }
   if(nonwear_method[1] == "choi_HR") {
     nonwear = flag_choi_HR(HR, ...)

@@ -2,7 +2,7 @@ Package: fitibble
 Title: Process and Explore Fitbit Data from Fitabase
 Version: 0.0.0.9000
 Authors@R: 
-    person("Michelle", "Audirac", email = "audiracm1ch3ll3@gmail.com", role = c("aut", "cre", "man"),
+    person("Michelle", "Audirac", email = "audiracm1ch3ll3@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-5889-6768"))
 Description: Extensive use of accelerometers in health research has led to some level of agreement of which issues processing of epoch accelerometer values should address to adequately capture activity patterns that support epidemiological findings, most notably how to determine non-wear time and what constitutes a valid or adherent day. We collect processing decisions from the literature, mostly approaches widely adopted for ActiGraph’s activity counts, and illustrate their application on Fitbit’s steps, HR and intensity minute data.
 License: MIT + file LICENSE
@@ -11,15 +11,18 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports: 
     dplyr (>= 1.0.8),
+    forcats (>= 0.5.1),
     fs (>= 1.5.2),
     ggplot2 (>= 3.3.5),
     lubridate (>= 1.8.0),
     magrittr (>= 2.0.2),
+    purrr (>= 0.3.4),
     R.utils (>= 2.11.0),
     readr (>= 2.1.2),
     rlang (>= 1.0.2),
     stringr (>= 1.4.0),
     tibble (>= 3.1.6),
     tidyr (>= 1.2.0),
+    tidyselect (>= 1.1.2),
     zip (>= 2.2.0),
     zoo (>= 1.8.9)

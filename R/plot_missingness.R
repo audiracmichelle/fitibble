@@ -41,6 +41,7 @@ plot_missingness <- function(
   }
 
   if(type[1] == "stacked") {
+    ylab = "Proportion of missing readings per day"
     p <- minute_data %>%
       dplyr::group_by(.data$id, .data$date) %>%
       dplyr::summarise(
@@ -72,6 +73,7 @@ plot_missingness <- function(
       ggplot2::facet_wrap(~id, nrow=length(unique(minute_data$id)))
   }
   if(type[1] == "raster") {
+    ylab = "Minute-by-minute missing readings per day"
     p <- minute_data %>%
       dplyr::mutate(
         hour = lubridate::hour(.data$time),
@@ -113,5 +115,5 @@ plot_missingness <- function(
     ggplot2::theme_minimal() +
     ggplot2::theme(legend.position = "bottom") +
     ggplot2::scale_fill_manual(values = fill_colors) +
-    ggplot2::labs(fill = "", y = "Hours in the day", x = "")
+    ggplot2::labs(fill = "", y = ylab, x = "")
 }

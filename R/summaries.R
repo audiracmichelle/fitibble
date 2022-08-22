@@ -43,23 +43,27 @@ prep_daily_data <- function(
     dplyr::mutate(
       date = as.Date(.data$time),
       zero_steps = 1 * (.data$steps == 0),
-      is_sedentary = dplyr::if_else(!.data$is_valid, FALSE, .data$is_sedentary) #modify crop_valid so that all non identifier columns are masked
+      is_sedentary = dplyr::if_else(is.na(.data$intensity), FALSE, .data$is_sedentary) #modify crop_valid so that all non identifier columns are masked
     ) %>%
     dplyr::select(
-      .data$id, .data$date, .data$is_valid, .data$HR, .data$zero_steps, .data$steps, .data$is_sedentary
+      .data$id, .data$date, .data$is_valid, .data$is_nonvalid, .data$HR, .data$zero_steps, .data$steps, .data$is_sedentary
     ) %>%
     dplyr::group_by(.data$id, .data$date) %>%
     dplyr::summarise(
-      valid_mins = sum(.data$is_valid, na.rm = T),
+      valid_mins = sum(.data$is_valid),
+      nonvalid_mins = sum(.data$is_nonvalid),
       HR = mean(.data$HR, na.rm = T),
       zero_steps_prop = sum(.data$zero_steps, na.rm = T),
       steps = sum(.data$steps, na.rm = T) / min(1, sum(!is.na(.data$steps))), #the lower part of the fraction avoids zero sum if all steps are NA
       sed_bout_length = mean_sed_bout_length(.data$is_sedentary) #think thought the order between sedentary bout length calculation and valid minutes filtering
     ) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(
-      zero_steps_prop = .data$zero_steps_prop / .data$valid_mins
-    )
+    dplyr::ungroup()
+
+  if(nonvalid) {
+    daily_data$zero_steps_prop <- daily_data$zero_steps_prop / daily_data$nonvalid_mins
+  } else {
+    daily_data$zero_steps_prop <- daily_data$zero_steps_prop / daily_data$valid_mins
+  }
 
   .data$intensity_levels <- factor(.data[[intensity_colname]], exclude = NULL)
   .data$intensity_levels <- .data$intensity_levels %>%
@@ -77,7 +81,7 @@ prep_daily_data <- function(
         tidyr::pivot_wider(
           names_from = .data$intensity_levels,
           values_from = .data$value,
-          names_glue = "{intensity_levels}_prop",
+          names_glue = "{intensity_levels}_time_use",
           values_fill = 0
         ) %>%
         dplyr::mutate(date = as.Date(.data$time)) %>%
@@ -114,8 +118,10 @@ prep_daily_summary <- function(
       sd_steps = stats::sd(.data$steps, na.rm = T),
       mu_sed_bout_length = mean(.data$sed_bout_length, na.rm = T),
       sd_sed_bout_length = stats::sd(.data$sed_bout_length, na.rm = T),
+      mu_zero_steps_prop = mean(.data$zero_steps_prop, na.rm = T),
+      sd_zero_steps_prop = stats::sd(.data$zero_steps_prop, na.rm = T),
       dplyr::across(
-        tidyselect::contains("_prop"),
+        tidyselect::contains("time_use"),
         list(mu = ~ mean(.x, na.rm = T),
              sd = ~ stats::sd(.x, na.rm = T)),
         .names = "{.fn}_{.col}")

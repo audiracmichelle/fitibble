@@ -26,7 +26,8 @@ flag_nonwear <- function(
                        "missing_HR_zero_steps",
                        #"claudel",
                        "choi_HR",
-                       "choi_steps"),
+                       "choi_steps",
+                       "none"),
     ...
 ) {
   if(nonwear_method[1] == "missing_HR") {
@@ -40,6 +41,9 @@ flag_nonwear <- function(
   }
   if(nonwear_method[1] == "choi_steps") {
     nonwear = flag_choi_steps(steps, ...)
+  }
+  if(nonwear_method[1] == "none") {
+    nonwear = rep(F, length(HR))
   }
   return(nonwear)
 }

@@ -98,7 +98,7 @@ relevel_fitibble <- function( #new issue:make this function a generic in future 
 #' @param .data A tibble containing `id` | `time` | `HR` | `steps` | `intensity`. The intensity column can have another name, specified by `intensity_col`. It can be the output of `prepare_minute_data()` or a tibble or data.frame with columns  `id` (character)| `time` (POSIXct yyyy-mm-dd HH:MM:SS) |`HR` (numeric)|`steps` (numeric) and with minute-level values in each row. It is necessary that for each participant the minute sequence has no gaps and  missing records should be entered as `NA`.
 #' @param intensity_colname a character entry indicating the name of the column that contains the intensity of each minute reading in `.data`.
 #' @param intensity_levels a named character vector indicating the labels and levels of the intensity categories in `intensity_col`.
-#' @param nonwear_method one of the following "missing_HR", "missing_HR_zero_steps", "choi_HR" or "choi_steps".
+#' @param nonwear_method one of the following "missing_HR", "missing_HR_zero_steps", "choi_HR", "choi_steps"  or  "none".
 #' @param nonwear_args additional parameters that go into the nonwear method.
 #' @param adherent_method one of the following "adherent_hours_between" (other adherence rule could be integrated into the package).
 #' @param adherent_args additional parameters that go into the adherent method.

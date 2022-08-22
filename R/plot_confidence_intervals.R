@@ -181,7 +181,7 @@ plot_ci <- function(
   if(type[1] == "time_use") {
     ci_summary <- daily_summary %>%
       dplyr::select("id", "valid_days", tidyselect::contains("mu")) %>%
-      dplyr::select(-c("mu_HR", "mu_steps", "mu_sed_bout_length", "mu_zero_steps_prop")) %>%
+      dplyr::select("id", "valid_days", tidyselect::contains("time_use")) %>%
       tidyr::pivot_longer(
         cols =  tidyselect::contains("mu"),
         names_transform = list(name = function(x) gsub("mu_", "", x)),
@@ -189,7 +189,7 @@ plot_ci <- function(
       dplyr::left_join(
         daily_summary %>%
           dplyr::select("id", "valid_days", tidyselect::contains("sd")) %>%
-          dplyr::select(-c("sd_HR", "sd_steps", "sd_sed_bout_length", "sd_zero_steps_prop")) %>%
+          dplyr::select("id", "valid_days", tidyselect::contains("time_use")) %>%
           tidyr::pivot_longer(
             cols = tidyselect::contains("sd"),
             names_transform = list(name = function(x) gsub("sd_", "", x)),

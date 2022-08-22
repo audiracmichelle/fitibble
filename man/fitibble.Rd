@@ -23,7 +23,7 @@ fitibble(
 
 \item{intensity_levels}{a named character vector indicating the labels and levels of the intensity categories in \code{intensity_col}.}
 
-\item{nonwear_method}{one of the following "missing_HR", "missing_HR_zero_steps", "choi_HR" or "choi_steps".}
+\item{nonwear_method}{one of the following "missing_HR", "missing_HR_zero_steps", "choi_HR", "choi_steps"  or  "none".}
 
 \item{nonwear_args}{additional parameters that go into the nonwear method.}
 

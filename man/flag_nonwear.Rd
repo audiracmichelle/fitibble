@@ -7,7 +7,8 @@
 flag_nonwear(
   HR,
   steps,
-  nonwear_method = c("missing_HR", "missing_HR_zero_steps", "choi_HR", "choi_steps"),
+  nonwear_method = c("missing_HR", "missing_HR_zero_steps", "choi_HR", "choi_steps",
+    "none"),
   ...
 )
 }

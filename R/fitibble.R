@@ -1,4 +1,6 @@
-#' new_fitibble
+#' @title New Fitibble
+#'
+#' @description
 #'
 #' @param x a tibble (containing Fitbit minute readings).
 #' @param intensity_colname a character entry indicating the name of the column in `x` that contains the intensity of each minute reading.
@@ -228,7 +230,6 @@ crop_valid <- function(.data, nonvalid = F, flag_valid = T, mask = F) {
 #' @param mask indicates whether minutes that are not nonvalid wear should be masked with an `NA` instead of filtered out. Only entries in HR, steps and intensity columns are masked.
 #'
 #' @return a fitibble of nonvalid wear entries.
-#' @export
 #'
 #' @examples
 crop_nonvalid <- function(.data, flag_nonvalid = T, mask = F) {
